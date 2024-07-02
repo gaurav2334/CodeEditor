@@ -1,52 +1,37 @@
 import React, { useState } from 'react';
-import Editor from 'react-simple-code-editor';
-import { Prism } from 'prism-react-renderer';
-import theme from 'prism-react-renderer/themes/duotoneDark';import { highlight, languages } from 'prism-react-renderer';
-import './CodeEditor.css';
+import Editor from 'react-simple-code-editor';                        //Importing the Editor component from the react-simple-code-editor library, which provides a simple code editor component for React.
+import { highlight, languages } from 'prismjs/components/prism-core';   //Importing highlight and languages from prismjs/components/prism-core. Prism.js is a lightweight, extensible syntax highlighter.
 
-// Add necessary Prism languages (optional, based on your needs)
-(typeof global !== 'undefined' ? global : window).Prism = Prism;
-require('prismjs/components/prism-javascript');
-require('prismjs/components/prism-css');
-require('prismjs/components/prism-markup');
+
+import 'prismjs/components/prism-clike';
+import 'prismjs/components/prism-javascript';
+import 'prismjs/themes/prism.css';                   //Importing the CSS file for Prism.js themes to style the syntax highlighting.
+import './CodeEditor.css';   // custom CSS  is used for general styling and layout.
 
 const CodeEditor = () => {
-  const [code, setCode] = useState('');
+  const [code, setCode] = useState('');   //nitializes the code state with an empty string. setCode is a function to update this state.
 
-  const handleValueChange = (value) => {
+  const handleValueChange = (value) => {  //This function is called whenever the value in the code editor changes. It updates the code state with the new value.
     setCode(value);
   };
 
-  return (
+  return (                                  // return jsx 
     <div className="code-editor-container">
       <Editor
         value={code}
-        onValueChange={handleValueChange}
-        highlight={(code) => (
-            <Prism
-              code={code}
-              language="javascript"
-              theme={theme}
-            >
-              {({ tokens, getLineProps, getTokenProps }) => (
-                <pre>
-                  {tokens.map((line, i) => (
-                    <div {...getLineProps({ line, key: i })}>
-                      {line.map((token, key) => (
-                        <span {...getTokenProps({ token, key })} />
-                      ))}
-                    </div>
-                  ))}
-                </pre>
-              )}
-            </Prism>
-          )}
-          
+        onValueChange={handleValueChange}   // whenever it changes , handleValuechnage will get called 
+        highlight={(code) => highlight(code, languages.js)}   // Uses the highlight function from Prism.js to apply syntax highlighting for JavaScript code.
         padding={10}
-        className="code-editor"
+        style={{
+          fontFamily: '"Fira code", "Fira Mono", monospace',   //inline CSS is used for specific styles that apply directly to the Editor component.
+          fontSize: 12,
+        }}
       />
     </div>
   );
 };
 
 export default CodeEditor;
+
+
+

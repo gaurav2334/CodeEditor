@@ -7,7 +7,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>React Code Editor</h1>
-        <CodeEditor />
+        <CodeEditor />                  
       </header>
     </div>
   );
